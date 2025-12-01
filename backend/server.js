@@ -17,7 +17,7 @@ const app = express()
 
 // Enable cross-origin requests with credentials (cookies/sessions) from frontend
 const corsOption = {
-    origin: 'https://job-portal-frontend-beryl.vercel.app/',
+    origin: 'https://job-portal-frontend-beryl.vercel.app',
     credentials: true,
 
 }
