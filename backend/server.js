@@ -11,6 +11,7 @@ import applicationrouter from './routes/application.route.js'
 
 // dotenv.config() is used to load environment variables from a .env file into your Node.js application.
 dotenv.config()
+connectDB()
 const PORT = process.env.PORT || 3000
 const app = express()
 
