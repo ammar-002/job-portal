@@ -17,7 +17,7 @@ const app = express()
 
 // Enable cross-origin requests with credentials (cookies/sessions) from frontend
 const corsOption = {
-    origin: 'https://job-portal-frontend-beryl.vercel.app',
+    origin: 'https://job-portal-by-ammar.vercel.app',
     credentials: true,
 
 }
@@ -29,9 +29,7 @@ app.use(cors(corsOption))
 
 // API
 app.use('/api/v1/user', userrouter)
-// "http://localhost:8000/api/v1/user/register"
-// "http://localhost:8000/api/v1/user/login"
-// "http://localhost:8000/api/v1/user/updateProfile"
+ 
 app.use('/api/v1/company', companyrouter)
 app.use('/api/v1/job', jobrouter)
 app.use('/api/v1/application', applicationrouter)
