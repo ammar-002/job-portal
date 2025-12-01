@@ -20,6 +20,12 @@ export const register = async (req, res) => {
       const fileUri = getDataUri(file);
       cloudResponse = await cloudinary.uploader.upload(fileUri.content);
     }
+    if (!cloudResponse) {
+      return res.status(400).json({
+        message: "Profile Picture is required",
+        success: false,
+      });
+    }
     const user = await User.findOne({ email });
     if (user) {
       return res.status(400).json({
@@ -102,7 +108,7 @@ export const login = async (req, res) => {
       .status(200)
       .cookie("token", token, {
         maxAge: 1 * 24 * 60 * 60 * 1000,
-        httpsOnly: true, //
+        httpOnly: true, //
         sameSite: "strict",
       })
       .json({
