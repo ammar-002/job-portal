@@ -17,10 +17,10 @@ const app = express()
 
 // Enable cross-origin requests with credentials (cookies/sessions) from frontend
 const corsOption = {
-    origin : 'http://localhost:5173',
-    credentials : true,
+    origin: 'https://job-portal-frontend-beryl.vercel.app/',
+    credentials: true,
 
-} 
+}
 // MiddleWares
 app.use(express.json())  //parse json data into js data as express doesnt know how to handle json data
 app.use(cookieParser())  //
@@ -28,13 +28,13 @@ app.use(cors(corsOption))
 
 
 // API
-app.use('/api/v1/user',userrouter)
+app.use('/api/v1/user', userrouter)
 // "http://localhost:8000/api/v1/user/register"
 // "http://localhost:8000/api/v1/user/login"
 // "http://localhost:8000/api/v1/user/updateProfile"
-app.use('/api/v1/company',companyrouter)
-app.use('/api/v1/job',jobrouter)
-app.use('/api/v1/application',applicationrouter)
+app.use('/api/v1/company', companyrouter)
+app.use('/api/v1/job', jobrouter)
+app.use('/api/v1/application', applicationrouter)
 // app.listen(PORT, () => {
 //     connectDB()
 //     console.log(`App is Listening at PORT ${PORT}`)
