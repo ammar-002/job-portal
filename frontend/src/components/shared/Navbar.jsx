@@ -31,7 +31,7 @@ const Navbar = () => {
         <div className="logo ">
           <Link to={"/"}>
             <h1 className="text-4xl font-bold text-[#3A506B]">
-              Do!<span className="text-[#1C2541]">Job</span>
+              Do <span className="text-[#1C2541]">Job</span>
             </h1>
           </Link>
         </div>
