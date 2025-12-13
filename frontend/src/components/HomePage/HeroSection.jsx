@@ -16,7 +16,7 @@ const HeroSection = () => {
   return (
     <div>
       <div className="flex flex-col items-center justify-center my-[3vh] gap-4">
-        <p className="text-lg bg-gray px-2 py-1 rounded-lg bg-gray-50 text-[#3A506B]  ">Welcome To <span className="font-semibold">Do!Job</span></p>
+        <p className="text-lg bg-gray px-2 py-1 rounded-lg bg-gray-50 text-[#3A506B]  ">Welcome To <span className="font-semibold">Do Job</span></p>
         <div className="text-3xl text-[#3A506B] text-center font-bold">
           Land Your Dream Job & <br />{" "}
           <span className="text-[#b1b4b8]">Launch the Career You Deserve!</span>{" "}
