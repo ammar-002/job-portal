@@ -25,7 +25,12 @@ const corsOption = {
 app.use(express.json())  //parse json data into js data as express doesnt know how to handle json data
 app.use(cookieParser())  //
 app.use(cors(corsOption))
-
+app.use((req, res, next) => {
+  if (process.env.CRASH  === 'true') {
+    throw new Error('Intentional 500 error for testing');
+  }
+  next();
+});
 
 // API
 app.use('/api/v1/user', userrouter)
