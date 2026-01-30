@@ -69,9 +69,7 @@ const appRouter = createBrowserRouter([
     element: <ProtectedRoute><NewJob /></ProtectedRoute>,
   },
 ]);
-if (process.env.CRASH === 'true') {
-  throw new Error('Website is down for maintenance');
-}
+
 const App = () => {
   return (
     <>
