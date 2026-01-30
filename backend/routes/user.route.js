@@ -4,7 +4,7 @@ import {register,login,updateProfile, logout} from '../controllers/user.controll
 import isAuthenticated from '../middlewares/isAuthenticated.js'
 import { singleUpload } from '../middlewares/multer.middleware.js'
 const userrouter = express.Router()
- serrouter.route('/register').post(singleUpload, register)
+userrouter.route('/register').post(singleUpload, register)
 userrouter.route('/login').post(login)
 userrouter.route('/logout').get(logout)
 userrouter.route('/updateprofile').post(isAuthenticated,singleUpload,updateProfile)
