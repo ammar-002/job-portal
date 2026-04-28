@@ -19,14 +19,15 @@ const PORT = process.env.PORT || 3000
 const app = express()
 
 // Enable cross-origin requests with credentials (cookies/sessions) from frontend
-app.use(cors({
-    origin: "*",
-    credentials: true
-}));
+const corsOption = {
+    origin: process.env.FRONTEND_URL, 
+    credentials: true,
+
+}
 // MiddleWares
 app.use(express.json())  //parse json data into js data as express doesnt know how to handle json data
 app.use(cookieParser())  //
-// app.use(cors(corsOption))
+app.use(cors(corsOption))
  
 
 // API
