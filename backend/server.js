@@ -32,12 +32,11 @@ app.use(cors(corsOption))
 
 // API
 app.use('/api/v1/user', userrouter)
- 
 app.use('/api/v1/company', companyrouter)
-app.use('/api/v1/job', jobrouter)
+app.use('/api', jobrouter)
 app.use('/api/v1/application', applicationrouter)
-// app.listen(PORT, () => {
-//     console.log(`App is Listening at PORT ${PORT}`)
-// })
+app.listen(PORT, () => {
+    console.log(`App is Listening at PORT ${PORT}`)
+})
 
 export default app
