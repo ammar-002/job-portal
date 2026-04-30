@@ -27,6 +27,7 @@ const corsOption = {
 // MiddleWares
 app.use(express.json())  //parse json data into js data as express doesnt know how to handle json data
 app.use(cookieParser())  //
+app.options('*', cors(corsOption))
 app.use(cors(corsOption))
  
 
