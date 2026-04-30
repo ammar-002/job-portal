@@ -6,7 +6,7 @@ import isAuthenticated from '../middlewares/isAuthenticated.js'
 const jobrouter = express.Router()
 
 jobrouter.route('/v1/job/createjob').post(isAuthenticated,createJob)
-jobrouter.route('/v1/job/getalljobs').get( getAllJobs)
+// jobrouter.route('/v1/job/getalljobs').get( getAllJobs)
 jobrouter.route('/v1/job/getadminjobs').get(isAuthenticated,getAdminJobs)
 jobrouter.route('/v1/job/getjobby/:_id').get( getJobById)
 jobrouter.route('/v1/job/delete/:_id').delete(isAuthenticated,deleteJob )
