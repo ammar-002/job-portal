@@ -14,13 +14,13 @@ dns.setServers(["1.1.1.1", "8.8.8.8"]);
 // dotenv.config() is used to load environment variables from a .env file into your Node.js application.
 
 dotenv.config()
-await connectDB()
+connectDB()
 const PORT = process.env.PORT || 3000
 const app = express()
 
 // Enable cross-origin requests with credentials (cookies/sessions) from frontend
 const corsOption = {
-    origin: "https://job-portal-by-ammar.vercel.app", 
+    origin:  "https://job-portal-by-ammar.vercel.app", 
     credentials: true,
 
 }
