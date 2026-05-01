@@ -10,7 +10,7 @@ import applicationrouter from './routes/application.route.js'
 import dns from 'dns'
 
 
-dns.setServers(["1.1.1.1", "8.8.8.8"]);
+// dns.setServers(["1.1.1.1", "8.8.8.8"]);
 // dotenv.config() is used to load environment variables from a .env file into your Node.js application.
 
 dotenv.config()
@@ -25,17 +25,6 @@ app.use(cors({
     origin: process.env.FRONTEND_URL,
     credentials: true
 }))
- app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://job-portal-by-ammar.vercel.app");
-  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(200);
-  }
-
-  next();
-});
 // API
 app.use('/api/v1/user', userrouter)
 app.use('/api/v1/company', companyrouter)
