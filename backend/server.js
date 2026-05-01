@@ -14,7 +14,10 @@ import dns from 'dns'
 // dotenv.config() is used to load environment variables from a .env file into your Node.js application.
 
 dotenv.config()
-connectDB()
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
 const PORT = process.env.PORT || 3000
 const app = express()
 // MiddleWares
