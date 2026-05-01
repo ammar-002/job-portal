@@ -9,6 +9,6 @@ jobrouter.route('/createjob').post(isAuthenticated,createJob)
 jobrouter.route('/getadminjobs').get(isAuthenticated,getAdminJobs)
 jobrouter.route('/getjobby/:_id').get( getJobById)
 jobrouter.route('/delete/:_id').delete(isAuthenticated,deleteJob )
-jobrouter.route('/getAllJobs').get(getAllJobs)
+jobrouter.route('/getalljobs').get(getAllJobs)
 export default jobrouter
     
