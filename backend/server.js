@@ -31,7 +31,7 @@ app.use(cors({
 // API
 app.use('/api/v1/user', userrouter)
 app.use('/api/v1/company', companyrouter)
-app.use('/api', jobrouter)
+app.use('/api/v2/job', jobrouter)
 app.use('/api/v1/application', applicationrouter)
 // app.listen(PORT, () => {
 //     console.log(`App is Listening at PORT ${PORT}`)
