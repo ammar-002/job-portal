@@ -96,6 +96,7 @@ export const login = async (req, res) => {
       expiresIn: "1d",
       sameSite: "none",
       httpOnly: true,
+      secure: true,
     });
     user = {
       _id: user._id,
