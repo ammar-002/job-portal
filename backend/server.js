@@ -33,6 +33,12 @@ app.use('/api/v1/user', userrouter)
 app.use('/api/v1/company', companyrouter)
 app.use('/api/v2/job', jobrouter)
 app.use('/api/v1/application', applicationrouter)
+app.get('/', (req, res) => {
+    res.json({ 
+        frontendUrl: process.env.FRONTEND_URL,
+        status: "running" 
+    })
+})
 // app.listen(PORT, () => {
 //     console.log(`App is Listening at PORT ${PORT}`)
 // })
