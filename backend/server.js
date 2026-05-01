@@ -27,7 +27,13 @@ const corsOption = {
 // MiddleWares
 app.use(express.json())  //parse json data into js data as express doesnt know how to handle json data
 app.use(cookieParser())  //
-app.options('*', cors(corsOption))
+// app.options('*', (req, res) => {
+//     res.header('Access-Control-Allow-Origin', 'https://job-portal-by-ammar.vercel.app')
+//     res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS')
+//     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+//     res.header('Access-Control-Allow-Credentials', 'true')
+//     res.sendStatus(200)
+// })
 app.use(cors(corsOption))
  
 
