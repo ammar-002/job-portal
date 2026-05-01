@@ -11,3 +11,4 @@ jobrouter.route('/getjobby/:_id').get( getJobById)
 jobrouter.route('/delete/:_id').delete(isAuthenticated,deleteJob )
 jobrouter.route('/getAllJobs').get(getAllJobs)
 export default jobrouter
+    

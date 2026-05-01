@@ -23,10 +23,9 @@ app.use(cookieParser())  //
 
 app.use(cors({
     origin: process.env.FRONTEND_URL,
-    methods: ["GET", "POST", "PUT","PATCH", "DELETE"],
     credentials: true
 }))
- 
+ app.options("*", cors());
 
 // API
 app.use('/api/v1/user', userrouter)
