@@ -10,14 +10,11 @@ import applicationrouter from './routes/application.route.js'
 import dns from 'dns'
 
 
-// dns.setServers(["1.1.1.1", "8.8.8.8"]);
+dns.setServers(["1.1.1.1", "8.8.8.8"]);
 // dotenv.config() is used to load environment variables from a .env file into your Node.js application.
 
 dotenv.config()
-app.use(async (req, res, next) => {
-  await connectDB();
-  next();
-});
+connectDB()
 const PORT = process.env.PORT || 3000
 const app = express()
 // MiddleWares
