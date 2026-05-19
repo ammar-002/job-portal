@@ -29,12 +29,14 @@ import useGetAllAdminJobs from "@/components/hooks/useGetAllAdminJobs";
 import { JOB_API_END_POINT } from "@/components/utils/constant";
 import { setAllAdminJobs } from "@/redux/jobSlice";
 import { toast } from "sonner";
+
 const JobTable = () => {
   const dispatch = useDispatch();
   useGetAllAdminJobs();
   const { AllAdminJobs, searchJobByText } = useSelector((store) => store.job);
   const [tempJobs, settempJobs] = useState(AllAdminJobs);
   const navigate = useNavigate();
+
   const deleteHanlde = async (jobId) => {
     try {
       const res = await axios.delete(`${JOB_API_END_POINT}/delete/${jobId}`, {
@@ -45,13 +47,13 @@ const JobTable = () => {
         dispatch(setAllAdminJobs(updatedJobs));
       }
       console.log(res.data.message);
-      
       toast.success(res.data.message);
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
     }
   };
+
   useEffect(() => {
     const filteredJobs =
       AllAdminJobs?.length >= 0 &&
@@ -68,6 +70,7 @@ const JobTable = () => {
       });
     settempJobs(filteredJobs);
   }, [AllAdminJobs, searchJobByText]);
+
   return (
     <div className="my-7">
       <Table>
@@ -75,7 +78,7 @@ const JobTable = () => {
           List Of Posted Jobs
         </TableCaption>
         <TableHeader>
-          <TableRow className={"text-lg font-semibo ld text-blue-800 "}>
+          <TableRow className={"text-lg font-semibold text-blue-800"}>
             <TableHead>Company</TableHead>
             <TableHead>Title</TableHead>
             <TableHead>Date</TableHead>
@@ -84,7 +87,7 @@ const JobTable = () => {
         </TableHeader>
         <TableBody>
           {tempJobs.map((item, index) => (
-            <TableRow key={index} className={"text-gray-700 text-md "}>
+            <TableRow key={index} className={"text-gray-700 text-md"}>
               <TableCell className="font-medium">
                 {item?.companyId?.companyName}
               </TableCell>
@@ -98,27 +101,37 @@ const JobTable = () => {
                     <Button
                       className={"text-sm cursor-pointer bg-gray-50 shadow-md"}
                     >
-                      <CiMenuKebab />{" "}
+                      <CiMenuKebab />
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-35 mr-3 bg-gray-100 text-gray-600 flex flex-col gap-3 border-none ">
+                  <PopoverContent className="w-35 mr-3 bg-gray-100 text-gray-600 flex flex-col gap-3 border-none">
+                    {/* ── Edit / Update ── */}
                     <div
-                      className="flex items-center justify-center gap-2 hover:bg-gray-200  shadow-sm shadow-gray-500 rounded-md py-1  cursor-pointer  "
+                      className="flex items-center justify-center gap-2 hover:bg-gray-200 shadow-sm shadow-gray-500 rounded-md py-1 cursor-pointer"
+                      onClick={() => navigate(`/admin/jobs/${item?._id}/edit`)}
+                    >
+                      <span>Update</span>
+                      <FaEdit className="text-lg" />
+                    </div>
+
+                    {/* ── Delete ── */}
+                    <div
+                      className="flex items-center justify-center gap-2 hover:bg-gray-200 shadow-sm shadow-gray-500 rounded-md py-1 cursor-pointer"
                       onClick={() => deleteHanlde(item._id)}
                     >
                       <span>Delete</span>
                       <MdDelete className="text-lg" />
                     </div>
+
+                    {/* ── Applicants ── */}
                     <div
                       onClick={() =>
                         navigate(`/admin/jobs/${item?._id}/applicants`)
                       }
-                      className="flex items-center justify-center gap-2 hover:bg-gray-200  shadow-sm shadow-gray-500 rounded-md py-1  cursor-pointer  "
+                      className="flex items-center justify-center gap-2 hover:bg-gray-200 shadow-sm shadow-gray-500 rounded-md py-1 cursor-pointer"
                     >
-                      <span>Applicants</span>{" "}
-                      <div>
-                        <FaEye />
-                      </div>
+                      <span>Applicants</span>
+                      <FaEye />
                     </div>
                   </PopoverContent>
                 </Popover>

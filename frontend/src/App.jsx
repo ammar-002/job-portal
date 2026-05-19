@@ -15,6 +15,7 @@ import CompanySetup from "./admin/CompanySetup";
 import NewJob from "./admin/NewJob";
 import Applicants from "./admin/Applicants";
 import ProtectedRoute from "./admin/Protect";
+import JobEdit from "./admin/JobEdit";
 const appRouter = createBrowserRouter([
   {
     path: "/",
@@ -55,6 +56,10 @@ const appRouter = createBrowserRouter([
   {
     path: "/admin/new-company",
     element: <ProtectedRoute><NewCompany /></ProtectedRoute>,
+  },
+  {
+    path: "/admin/jobs/:id/edit",
+    element: <ProtectedRoute><JobEdit /></ProtectedRoute>,
   },
   {
     path: "/admin/jobs",

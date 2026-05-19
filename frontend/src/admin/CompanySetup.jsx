@@ -49,7 +49,7 @@ const CompanySetup = () => {
       formData.append("file", input.file);
     }
     try {
-      
+
       const res = await axios.put(
         `${COMPANY_API_END_POINT}/update/${companyId}`,
         formData,
@@ -59,15 +59,20 @@ const CompanySetup = () => {
         }
       );
       if (res.data.success) {
-        
+
         // console.log("Updated=> ",res); 
         toast.success(res.data.message);
         dispatch(setSingleCompany(res.data.company))
         navigate("/admin/companies");
       }
     } catch (error) {
-      console.log(error);
-      toast.error(error?.response?.data?.message||"Something Wrong");
+      const err = error?.response?.data;
+      if (err?.errors?.length > 0) {
+        // only show first error message for simplicity
+        toast.error(err.errors[0].message);
+      } else {
+        toast.error(err?.message || 'Something went wrong');
+      }
     } finally {
       setloading(false);
     }
@@ -78,7 +83,7 @@ const CompanySetup = () => {
       description: SingleCompany.description || "",
       location: SingleCompany.location || "",
       website: SingleCompany.website || "",
-      file:SingleCompany.file||null
+      file: SingleCompany.file || null
     });
   }, [SingleCompany]);
 
@@ -110,7 +115,7 @@ const CompanySetup = () => {
                   placeholder="Write About Your Company"
                   onChange={changeHandler}
                   name="description"
-                  value ={input.description}
+                  value={input.description}
                   type={"text"}
                 />
               </div>
@@ -119,7 +124,7 @@ const CompanySetup = () => {
                 <Input
                   placeholder="https://abc-domain.com"
                   onChange={changeHandler}
-                  value ={input.website}
+                  value={input.website}
                   type={"text"}
                   name="website"
                 />
@@ -131,12 +136,12 @@ const CompanySetup = () => {
                   type={"text"}
                   placeholder="Karachi,Lahore,Remote,etc"
                   name="location"
-                  value ={input.location}
+                  value={input.location}
                 />
               </div>
               <div className="flex flex-col gap-2 ">
                 <Label>Logo</Label>
-                <Input  type={"file"} accept="image/*" onChange={fileHandler} />
+                <Input type={"file"} accept="image/*" onChange={fileHandler} />
 
               </div>
             </div>
@@ -159,8 +164,8 @@ const CompanySetup = () => {
               </Button>
             )}
           </form>
-          <div onClick={()=>navigate("/admin/companies")} className="absolute top-2 left-2 p-2 text-md rounded-full text-white bg-gray-400 cursor-pointer">
-            <MdArrowBack/>
+          <div onClick={() => navigate("/admin/companies")} className="absolute top-2 left-2 p-2 text-md rounded-full text-white bg-gray-400 cursor-pointer">
+            <MdArrowBack />
           </div>
         </div>
       </div>

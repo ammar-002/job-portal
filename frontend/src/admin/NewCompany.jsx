@@ -34,9 +34,13 @@ const NewCompany = () => {
         navigate(`/admin/companies/${companyId}`)
       }
     } catch (error) {
-      toast.error(error.response.data.message)
-      console.log(error);
-    }
+            const err = error?.response?.data;
+            if (err?.errors?.length > 0) {
+              // only show first error message for simplicity
+              toast.error(err.errors[0].message);
+            } else {
+                toast.error(err?.message || 'Something went wrong');
+            }}
   };
   const changeHandler = (e)=>{
     setCompanyName(e.target.value)

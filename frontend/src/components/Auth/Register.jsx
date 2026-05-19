@@ -50,16 +50,24 @@ const Register = () => {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });
+
       // console.log()
       if (res.data.success) {
         toast.success(res.data.message);
         navigate("/login");
       }
+      
     } catch (error) {
-       dispatch(setLoading(false));
-      console.log(error);
-      toast.error(error.response.data.message);
-    } finally {
+    dispatch(setLoading(false));
+    const err = error?.response?.data;
+     
+    if (err?.errors?.length > 0) {
+      // only show first error message for simplicity
+      toast.error(err.errors[0].message);
+    } else {
+        toast.error(err?.message || 'Something went wrong');
+    }
+} finally {
       dispatch(setLoading(false));
     }
   };

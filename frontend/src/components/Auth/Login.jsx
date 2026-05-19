@@ -49,8 +49,15 @@ const Login = () => {
         
       }
     } catch (error) {
-      console.log(error);
-      toast.error(error.response.data.message);
+        dispatch(setLoading(false));
+        const err = error?.response?.data;
+         
+        if (err?.errors?.length > 0) {
+          // only show first error message for simplicity
+          toast.error(err.errors[0].message);
+        } else {
+            toast.error(err?.message || 'Something went wrong');
+        }
     } finally {
       dispatch(setLoading(false));
     }

@@ -2,6 +2,7 @@ import { Company } from "../models/company.model.js";
 import getDataUri from "../utils/dataURI.js";
 import cloudinary from "../utils/cloudinary.js";
 export const registerCompany = async (req, res) => {
+  console.log("Request Body: ", req); // Debugging line to check the request body
   try {
     const { companyName, logo } = req.body;
     if (!companyName) {
@@ -96,6 +97,12 @@ export const updateCompany = async (req, res) => {
       const fileUri = getDataUri(file);
       cloudResponse = await cloudinary.uploader.upload(fileUri.content);
       logo = cloudResponse.secure_url;
+    }
+    if(!logo){
+      return res.status(400).json({
+        message: "Logo is required",
+        success: false
+      });
     }
     const updateData = { companyName, description, website, location, logo };
     const company = await Company.findByIdAndUpdate(

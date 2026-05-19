@@ -163,3 +163,51 @@ export const deleteJob = async (req,res)=>{
     }
 
 }
+
+export const updateJob = async (req,res)=>{
+    try {
+        console.log("Update Job Request Body:", req.body);
+        const jobId = req.params._id
+        const { title, description, requirements, salary, experience, location, vacancies,companyId } = req.body
+        if (!jobId) {
+            return res.status(400).json({
+                message: "Job ID is Required",
+                success: false,
+            })
+        }
+        if (!title || !description || !requirements || !salary || !experience || !location || !vacancies || !companyId) {
+            return res.status(400).json({
+                message: "Something Is Missing, Fill All Fields",
+                success: false,
+            })
+        }
+        const job = await Job.findById(jobId)
+        if (!job) {
+            return res.status(404).json({
+                message: "No Job Found.",
+                success: false,
+            })
+        }
+        job.title = title
+        job.description = description
+        job.requirements = requirements.split(",")
+        job.salary = Number(salary)
+        job.experience = experience
+        job.location = location
+        job.vacancies = vacancies
+        job.companyId = companyId
+        await job.save()
+        return res.status(200).json({
+            message: "Job Updated Successfully",
+            job,
+            success: true,
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            message: "Something Went Wrong!",
+            success: false,
+        })
+    }
+}
+
