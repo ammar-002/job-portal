@@ -19,6 +19,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import api from "@/utils/axiosInstance";
 
 const NewJob = () => {
   const { AllCompanies } = useSelector((store) => store.company);
@@ -57,7 +58,7 @@ const NewJob = () => {
     }
     setLoading(true);
     try {
-      const res = await axios.post(`${JOB_API_END_POINT}/createjob`, input, {
+      const res = await api.post(`/api/v2/job/createjob`, input, {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       });

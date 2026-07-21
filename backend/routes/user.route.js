@@ -1,6 +1,6 @@
 import express from 'express'
 import { Router } from 'express'
-import {register,login,updateProfile, logout} from '../controllers/user.controller.js'
+import {register,login,updateProfile, logout, refreshAccessToken} from '../controllers/user.controller.js'
 import isAuthenticated from '../middlewares/isAuthenticated.js'
 import { singleUpload } from '../middlewares/multer.middleware.js'
 import { loginLimiter,registerLimiter } from '../middlewares/rateLimiter.js'
@@ -12,5 +12,6 @@ userrouter.route('/register').post(registerLimiter, singleUpload,validate(regist
 userrouter.route('/login').post(loginLimiter,validate(loginSchema) ,login)
 userrouter.route('/logout').get(logout)
 userrouter.route('/updateprofile').post(isAuthenticated,singleUpload,validate(updateProfileSchema),updateProfile)
+userrouter.route('/refresh-token').post(refreshAccessToken);
 
 export default userrouter

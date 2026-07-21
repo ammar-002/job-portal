@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
 import store from "@/redux/store";
 import { setLoading } from "@/redux/authSlics";
+import api from "@/utils/axiosInstance";
 const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ const Register = () => {
     }
     try {
       dispatch(setLoading(true));
-      const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {
+      const res = await api.post(`/api/v1/user/register`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });

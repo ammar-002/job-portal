@@ -1,12 +1,11 @@
 import Navbar from "@/components/shared/Navbar";
 import React, { useEffect } from "react";
 import ApplicantsTable from "./ApplicantsTable";
-import axios from "axios";
-import { APPLICATION_API_END_POINT } from "@/components/utils/constant";
 import { useParams } from "react-router-dom";
 import { setAllApplicants } from "@/redux/applicationSlice";
 import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
+import api from "@/utils/axiosInstance";
 
 const Applicants = () => {
   const param = useParams();
@@ -15,8 +14,8 @@ const Applicants = () => {
   const dispatch = useDispatch()
   const getApplicants = async () => {
     try {
-      const res = await axios.get(
-        `${APPLICATION_API_END_POINT}/${jobId}/applicants`,
+      const res = await api.get(
+        `/api/v1/application/applicants`,
         { withCredentials: true }
       );
 

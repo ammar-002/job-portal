@@ -10,13 +10,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Popover } from "@radix-ui/react-popover";
-import { TiTick } from "react-icons/ti";
+// import { TiTick } from "react-icons/ti";
 import React from "react";
 import { CgMore } from "react-icons/cg";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import { APPLICATION_API_END_POINT } from "@/components/utils/constant";
+import api from '../utils/axiosInstance.js'
 import { toast } from "sonner";
 
 const ApplicantsTable = () => {
@@ -24,8 +23,8 @@ const ApplicantsTable = () => {
   const statusHandler = async (status, Id) => {
     console.log(Id)
     try {
-      const res = await axios.post(
-        `${APPLICATION_API_END_POINT}/status/${Id}`,
+      const res = await api.post(
+        `/api/v1/application/status/${Id}`,
         { status },
         {
           withCredentials: true,

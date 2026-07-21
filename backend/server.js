@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 3000
 const app = express()
 // MiddleWares
 app.use(express.json())  //parse json data into js data as express doesnt know how to handle json data
-app.use(cookieParser())  //
+app.use(cookieParser())  
 
 app.use(cors({
     origin: process.env.FRONTEND_URL,
@@ -36,8 +36,8 @@ app.get('/', (req, res) => {
         status: "running" 
     })
 })
-app.listen(PORT, () => {
-    console.log(`App is Listening at PORT ${PORT}`)
-})
+// app.listen(PORT, () => {
+//     console.log(`App is Listening at PORT ${PORT}`)
+// })
 
 export default app

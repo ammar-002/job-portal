@@ -29,6 +29,7 @@ import { COMPANY_API_END_POINT } from "@/components/utils/constant";
 import { toast } from "sonner";
 import { setAllCompanies } from "@/redux/companySlice";
 import Companies from "./Companies";
+import api from "@/utils/axiosInstance";
 const CompanyTable = () => {
   const dispatch = useDispatch();
   useGetAllCompanies();
@@ -37,8 +38,8 @@ const CompanyTable = () => {
   const navigate = useNavigate();
   const deleteHanlde = async (companyId) => {
     try {
-      const res = await axios.delete(
-        `${COMPANY_API_END_POINT}/delete/${companyId}`,
+      const res = await api.delete(
+        `/api/v1/company/delete/${companyId}`,
         { withCredentials: true }
       );
       if (res.data.success) {

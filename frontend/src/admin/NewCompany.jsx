@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { COMPANY_API_END_POINT } from "@/components/utils/constant";
 import { setSingleCompany } from "@/redux/companySlice";
+import api from "@/utils/axiosInstance";
 import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,8 +19,8 @@ const NewCompany = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        `${COMPANY_API_END_POINT}/register`,
+      const res = await api.post(
+        `/api/v1/company/register`,
         {companyName},
         {
           headers: { "Content-Type": "application/json" },

@@ -3,13 +3,14 @@ import React, { useEffect } from "react";
 import { APPLICATION_API_END_POINT } from "../utils/constant";
 import { setAppliedJobs } from "@/redux/jobSlice";
 import { useDispatch } from "react-redux";
+import api from "@/utils/axiosInstance";
 
 const useGetAppliedJobs = () => {
     const dispatch = useDispatch()
   const getAppliedJobs = async () => {
     try {
-      const res = await axios.get(
-        `${APPLICATION_API_END_POINT}/getappliedjobs`,
+      const res = await api.get(
+        `/api/v1/application/getappliedjobs`,
         { withCredentials: true }
       );
       if (res.data.success) {

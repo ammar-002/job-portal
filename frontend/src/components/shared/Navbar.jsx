@@ -6,10 +6,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
-import { USER_API_END_POINT } from "../utils/constant";
 import { toast } from "sonner";
 import { setUser } from "@/redux/authSlics";
+import api from "@/utils/axiosInstance";
 
 const Navbar = () => {
   const { user } = useSelector((store) => store.auth);
@@ -17,7 +16,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const logoutHandler = async () => {
     try {
-      const res = await axios.get(`${USER_API_END_POINT}/logout`, {
+      const res = await api.get(`/api/v1/user/logout`, {
         withCredentials: true,
       });
       if (res.data.success) {

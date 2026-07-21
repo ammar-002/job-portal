@@ -4,9 +4,8 @@ import Navbar from "@/components/shared/Navbar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { COMPANY_API_END_POINT } from "@/components/utils/constant";
 import { setSingleCompany } from "@/redux/companySlice";
-import axios from "axios";
+import api from "@/utils/axiosInstance";
 import React, { useEffect, useState } from "react";
 import { MdArrowBack } from "react-icons/md";
 // import { IoMdArrowRoundBack } from "react-icons/io";
@@ -50,8 +49,8 @@ const CompanySetup = () => {
     }
     try {
 
-      const res = await axios.put(
-        `${COMPANY_API_END_POINT}/update/${companyId}`,
+      const res = await api.put(
+        `/api/v1/company/update/${companyId}`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },

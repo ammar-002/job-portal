@@ -16,6 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ArrowLeft, Loader2, BriefcaseIcon } from "lucide-react";
+import api from "@/utils/axiosInstance";
 
 const JobEdit = () => {
   const { id } = useParams();
@@ -59,7 +60,7 @@ const JobEdit = () => {
       // Fallback: fetch from API if not in store
       const fetchJob = async () => {
         try {
-          const res = await axios.get(`${JOB_API_END_POINT}/get/${id}`, {
+          const res = await api.get(`/api/v2/job/get/${id}`, {
             withCredentials: true,
           });
           if (res.data.success) {
@@ -100,8 +101,8 @@ const JobEdit = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await axios.put(
-        `${JOB_API_END_POINT}/update/${id}`,
+      const res = await api.put(
+        `/api/v2/job/update/${id}`,
         form,
         { withCredentials: true }
       );

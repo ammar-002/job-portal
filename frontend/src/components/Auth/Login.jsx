@@ -12,6 +12,7 @@ import { USER_API_END_POINT } from "../utils/constant";
 import { useDispatch, useSelector } from "react-redux";
 import store from "@/redux/store";
 import { setLoading, setUser } from "@/redux/authSlics";
+import api from "@/utils/axiosInstance";
 const Login = () => {
   
   const dispatch = useDispatch();
@@ -34,21 +35,23 @@ const Login = () => {
     e.preventDefault();
     try {
       dispatch(setLoading(true));
-      const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
+      const res = await api.post(`/api/v1/user/login`, input, {
         headers: {
           "Content-Type": "application/json",
         },
         withCredentials: true,
       });
       if (res.data.success) {
-        console.log(res)
-        toast.success(res.data.message);
-        console.log(res)
+        // console.log(res)
+        toast.dismiss();
+        toast.success("Login Successful");
+        // console.log(res)
         dispatch(setUser(res.data.user))
         navigate("/");
         
       }
     } catch (error) {
+      console.log("=>  ",error)
         dispatch(setLoading(false));
         const err = error?.response?.data;
          

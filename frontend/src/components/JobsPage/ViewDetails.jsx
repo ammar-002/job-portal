@@ -11,6 +11,7 @@ import {
   JOB_API_END_POINT,
 } from "../utils/constant";
 import { toast } from "sonner";
+import api from "@/utils/axiosInstance";
 
 const ViewDetails = () => {
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ const ViewDetails = () => {
 
   const getSingleJob = async () => {
     try {
-      const res = await axios.get(`${JOB_API_END_POINT}/getjobby/${jobId}`, {
+      const res = await api.get(`/api/v2/job/getjobby/${jobId}`, {
         withCredentials: true,
       });
       if (res.data.success) {
@@ -51,8 +52,8 @@ const ViewDetails = () => {
 
   const applyHandler = async () => {
     try {
-      const res = await axios.get(
-        `${APPLICATION_API_END_POINT}/apply/${jobId}`,
+      const res = await api.get(
+        `/api/v1/application/apply/${jobId}`,
         { withCredentials: true }
       );
       if (res.data.success) {

@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { USER_API_END_POINT } from "../utils/constant";
 import { setUser } from "@/redux/authSlics.js";
 import { toast } from "sonner";
+import api from "@/utils/axiosInstance";
 
 const EditForm = ({ open, setOpen }) => {
   const dispatch = useDispatch()
@@ -26,7 +27,7 @@ const EditForm = ({ open, setOpen }) => {
       formData.append("file", input.file);
     }
     try {
-      const res = await axios.post(`${USER_API_END_POINT}/updateprofile`,formData,{
+      const res = await api.post(`/api/v1/user/updateprofile`,formData,{
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       })

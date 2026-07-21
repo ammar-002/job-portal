@@ -4,12 +4,13 @@ import { COMPANY_API_END_POINT} from "../utils/constant";
 import { useDispatch} from "react-redux";
 import { toast } from "sonner";
 import { setSingleCompany } from "@/redux/companySlice";
+import api from "@/utils/axiosInstance";
 
 const useGetCompanyById= (companyId) => {
   const dispatch = useDispatch();
   const getCompanyById = async () => {
     try {
-      const res = await axios.get(`${COMPANY_API_END_POINT}/get/${companyId}`, {
+      const res = await api.get(`/api/v1/company/get/${companyId}`, {
         withCredentials: true,
       });
       console.log(res)

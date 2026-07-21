@@ -4,6 +4,43 @@ import bcrypt from "bcryptjs";
 import getDataUri from "../utils/dataURI.js";
 import cloudinary from "../utils/cloudinary.js";
 import { profile } from "console";
+import {generateTokens, setTokenCookie, blacklistToken,isBlacklisted} from "../utils/tokens.js";
+
+
+export const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: "Invalid credentials", success: false });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid credentials", success: false });
+    }
+
+    const { accessToken, refreshToken } = await generateTokens(user._id.toString());
+    // console.log(accessToken,refreshToken)
+    setTokenCookie(res, accessToken, refreshToken);
+
+    return res.status(200).json({
+      message: `Welcome back ${user.fullName}`,
+      user: {
+        _id: user._id,
+        fullName: user.fullName,
+        email: user.email,
+        role: user.role,
+        profile: user.profile,
+      },
+      success: true,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message, success: false });
+  }
+};
+
 
 export const register = async (req, res) => {
   try {
@@ -58,85 +95,21 @@ export const register = async (req, res) => {
   }
 };
 
-export const login = async (req, res) => {
-  try {
-    const { email, password, role } = req.body;
-    if (!email || !password || !role) {
-      return res.status(400).json({
-        message: "Something is Missing!",
-        suceess: false,
-      });
-    }
-    let user = await User.findOne({ email });
-    if (!user) {
-      return res.status(400).json({
-        message: "Email does not exist.",
-        success: false,
-      });
-    }
 
-    const isPassMatch = await bcrypt.compare(password, user.password);
-    if (!isPassMatch) {
-      return res.status(400).json({
-        message: "Incorrect Password",
-        success: false,
-      });
-    }
-    if (role != user.role) {
-      return res.status(400).json({
-        message: "Account does not exist with this role",
-        success: false,
-      });
-    }
-    // means decode kartay time yai data hamen milega
-    const tokenData = {
-      userId: user._id,
-    };
-    const token = jwt.sign(tokenData, process.env.SECRET_KEY, {
-      expiresIn: "1d",
-    });
-    user = {
-      _id: user._id,
-      fullName: user.fullName,
-      email: user.email,
-      phoneNumber: user.phoneNumber,
-      role:user.role,
-      profile: user.profile,
-    };
-
-    return res
-      .status(200)
-      .cookie("token", token, {
-        maxAge: 1 * 24 * 60 * 60 * 1000,
-        httpOnly: true,  
-        sameSite: "none",
-        secure: true,
-      })
-      .json({
-        message: `Welcome back ${user.fullName}`,
-        user,
-        success: true,
-      });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({
-      message: "Something Wrong Happened!",
-      success: false,
-    });
-  }
-};
 
 export const logout = async (req, res) => {
   try {
-    return res.status(200).cookie("token", "", { maxAge: 0 }).json({
-      message: "logout successfully",
+    const { accessToken, refreshToken } = req.cookies;
+    await blacklistToken(accessToken);
+    await blacklistToken(refreshToken);
+    res.clearCookie("accessToken");
+    res.clearCookie("refreshToken");
+    return res.status(200).json({
+      message: "Logged out successfully",
       success: true,
     });
   } catch (error) {
-    return res.status(500).json({
-      message: "Something Wrong Happened!",
-      success: false,
-    });
+    return res.status(500).json({ message: error.message, success: false });
   }
 };
 
@@ -163,7 +136,6 @@ export const updateProfile = async (req, res) => {
     if (phoneNumber) user.phoneNumber = phoneNumber;
     if (bio) user.profile.bio = bio;
     if (skills) user.profile.skills = skillsArray;
-
     // resume comes later
     if (cloudResponse) {
       user.profile.resume = cloudResponse.secure_url;
@@ -178,6 +150,7 @@ export const updateProfile = async (req, res) => {
       email: user.email,
       phoneNumber: user.phoneNumber,
       profile: user.profile,
+      role:user.role
     };
     return res.status(200).json({
       message: "profile updated successfully",
@@ -190,5 +163,35 @@ export const updateProfile = async (req, res) => {
       message: "Something Wrong Happened!",
       success: false,
     });
+  }
+};
+
+
+
+export const refreshAccessToken = async (req, res) => {
+  try {
+    const { refreshToken } = req.cookies;
+
+    if (!refreshToken) {
+      return res.status(401).json({ message: "Refresh token missing", success: false });
+    }
+
+    // Refresh token bhi blacklist ho sakta hai (logout ke baad)
+    const blacklisted = await isBlacklisted(refreshToken);
+    if (blacklisted) {
+      return res.status(401).json({ message: "Session expired, please login", success: false });
+    }
+
+    const decoded =  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+
+    // Purana refresh token blacklist karo (rotation — security best practice)
+    await blacklistToken(refreshToken);
+
+    const { accessToken: newAccess, refreshToken: newRefresh } = await generateTokens(decoded.userId);
+    setTokenCookie(res, newAccess, newRefresh);
+
+    return res.status(200).json({ message: "Token refreshed", success: true });
+  } catch (error) {
+    return res.status(401).json({ message: "Invalid refresh token, please login again", success: false });
   }
 };

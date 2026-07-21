@@ -39,7 +39,7 @@ const JobTable = () => {
 
   const deleteHanlde = async (jobId) => {
     try {
-      const res = await axios.delete(`${JOB_API_END_POINT}/delete/${jobId}`, {
+      const res = await appi.delete(`/delete/${jobId}`, {
         withCredentials: true,
       });
       if (res.data.success) {
