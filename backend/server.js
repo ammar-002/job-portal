@@ -18,13 +18,13 @@ connectDB()
 const PORT = process.env.PORT || 3000
 const app = express()
 // MiddleWares
-app.use(express.json())  //parse json data into js data as express doesnt know how to handle json data
-app.use(cookieParser())  
-
 app.use(cors({
     origin: process.env.FRONTEND_URL,
     credentials: true
 }))
+app.use(express.json())  //parse json data into js data as express doesnt know how to handle json data
+app.use(cookieParser())  
+
 // API
 app.use('/api/v1/user', userrouter)
 app.use('/api/v1/company', companyrouter)
