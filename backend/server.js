@@ -14,7 +14,14 @@ dns.setServers(["1.1.1.1", "8.8.8.8"]);
 // dotenv.config() is used to load environment variables from a .env file into your Node.js application.
 
 dotenv.config()
-connectDB()
+app.use(async (req, res, next) => {
+    try {
+        await connectDB()
+        next()
+    } catch (err) {
+        res.status(500).json({ message: "Database connection failed", success: false })
+    }
+})
 const PORT = process.env.PORT || 3000
 const app = express()
 // MiddleWares
