@@ -20,7 +20,7 @@ export const setTokenCookie = (res, accessToken, refreshToken) => {
     httpOnly: true, 
     secure: isProduction,
     sameSite: isProduction ? "None" : "Lax",
-    maxAge: 1 * 60 * 1000, // 15 minutes
+    maxAge: 15 * 60 * 1000, // 15 minutes
   });
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
