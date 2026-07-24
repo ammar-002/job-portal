@@ -14,7 +14,7 @@ const EditForm = ({ open, setOpen }) => {
   const dispatch = useDispatch()
   const [loading, setloading] = useState(false);
   const { user } = useSelector((store) => store.auth);
-  const submitHandler = async (e)=>{
+  const submitHandler = async (e) => {
     e.preventDefault()
     setloading(true)
     const formData = new FormData()
@@ -27,32 +27,38 @@ const EditForm = ({ open, setOpen }) => {
       formData.append("file", input.file);
     }
     try {
-      const res = await api.post(`/api/v1/user/updateprofile`,formData,{
+      const res = await api.post(`/api/v1/user/updateprofile`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       })
-      if(res.data.success){
-        dispatch(setUser(res.data.user))  
+      if (res.data.success) {
+        dispatch(setUser(res.data.user))
         toast.success(res.data.message);
-         
+
       }
     } catch (error) {
-      // toast.error(error.response.data.message)
-      console.log(error);
-    }finally{
+      const err = error?.response?.data;
+
+      if (err?.errors?.length > 0) {
+        // only show first error message for simplicity
+        toast.error(err.errors[0].message);
+      } else {
+        toast.error(err?.message || 'Something went wrong');
+      }
+    } finally {
       setloading(false)
       setOpen(false)
     }
     console.log(input)
-    
+
 
   }
-   const changEventHandler = (e) => {
+  const changEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
-  const fileHandler = (e)=>{
-     setInput({ ...input, file: e.target.files?.[0] });
-    
+  const fileHandler = (e) => {
+    setInput({ ...input, file: e.target.files?.[0] });
+
   }
   const [input, setInput] = useState({
     fullName: user?.fullName,
@@ -65,12 +71,12 @@ const EditForm = ({ open, setOpen }) => {
   return (
     <div className="bg-white">
       <Dialog open={open} onOpenChange={setOpen}>
-       
-          <DialogContent
-            className="sm:max-w-[400px] rounded-xl shadow-lg bg-white"
-            onInteractOutside={() => setOpen(false)}
-          >
-             <form onSubmit={submitHandler} className="bg-white">
+
+        <DialogContent
+          className="sm:max-w-[400px] rounded-xl shadow-lg bg-white"
+          onInteractOutside={() => setOpen(false)}
+        >
+          <form onSubmit={submitHandler} className="bg-white">
             <DialogHeader>
               <DialogTitle className="text-xl font-bold text-gray-800">
                 Edit Profile
@@ -83,10 +89,10 @@ const EditForm = ({ open, setOpen }) => {
                   Name
                 </Label>
                 <Input
-                onChange = {changEventHandler}
-                name="fullName"
+                  onChange={changEventHandler}
+                  name="fullName"
                   value={input.fullName}
-                  
+
                   id="name"
                   className="border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                 />
@@ -98,9 +104,9 @@ const EditForm = ({ open, setOpen }) => {
                   Email
                 </Label>
                 <Input
-                onChange = {changEventHandler}
-                name = "email"
-                value = {input.email}
+                  onChange={changEventHandler}
+                  name="email"
+                  value={input.email}
                   id="email"
                   className="border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                 />
@@ -110,9 +116,9 @@ const EditForm = ({ open, setOpen }) => {
                   Phone No
                 </Label>
                 <Input
-                onChange = {changEventHandler}
-                name="phoneNumber"
-                value = {input?.phoneNumber}
+                  onChange={changEventHandler}
+                  name="phoneNumber"
+                  value={input?.phoneNumber}
                   id="phone"
                   className="border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                 />
@@ -122,9 +128,9 @@ const EditForm = ({ open, setOpen }) => {
                   Bio
                 </Label>
                 <Input
-                name = "bio"
-                value = {input?.bio}
-                onChange = {changEventHandler}
+                  name="bio"
+                  value={input?.bio}
+                  onChange={changEventHandler}
                   id="bio"
                   className="border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                 />
@@ -134,9 +140,9 @@ const EditForm = ({ open, setOpen }) => {
                   Skills
                 </Label>
                 <Input
-                onChange = {changEventHandler}
+                  onChange={changEventHandler}
                   id="skills"
-                  name = "skills"
+                  name="skills"
                   value={input?.skills}
                   className="border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                 />
@@ -147,9 +153,9 @@ const EditForm = ({ open, setOpen }) => {
                 </Label>
                 <Input
                   accept="application/pdf"
-                  name = "file"
-                  
-                  onChange = {fileHandler}
+                  name="file"
+
+                  onChange={fileHandler}
                   id="file"
                   type="file"
                   className="border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
@@ -180,8 +186,8 @@ const EditForm = ({ open, setOpen }) => {
                 </Button>
               )}
             </div>
-            </form>
-          </DialogContent>
+          </form>
+        </DialogContent>
       </Dialog>
     </div>
   );

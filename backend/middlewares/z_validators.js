@@ -48,14 +48,42 @@ export const loginSchema = z.object({
     role: roleField,
 })
 
-// sab fields optional hain — sirf jo bheja wo validate ho
+ 
 export const updateProfileSchema = z.object({
-    fullName: z.string().trim().min(3).max(50).optional(),
-    email: z.string().trim().email('Invalid email').toLowerCase().optional(),
-    phoneNumber: z.string().trim().min(7).max(15).optional(),
-    bio: z.string().trim().max(300, 'Bio cannot exceed 300 characters').optional(),
-    skills: z.string().trim().max(500, 'Too many skills').optional(),
-})
+  fullName: z
+    .string()
+    .trim()
+    .min(3, 'Full name must be at least 3 characters long')
+    .max(50, 'Full name cannot exceed 50 characters'),
+
+  email: z
+    .string()
+    .trim()
+    .min(1, 'Email is required')
+    .email('Please enter a valid email address')
+    .toLowerCase(),
+
+  phoneNumber: z
+    .string()
+    .trim()
+    .min(7, 'Phone number is too short')
+    .max(15, 'Phone number is too long')
+    .regex(/^[+]?[0-9\s-]+$/, 'Phone number can only contain digits, spaces, + and -'),
+
+  bio: z
+    .string()
+    .trim()
+    .max(50, 'Bio cannot exceed 50 characters')
+    .optional()
+    .or(z.literal('')),
+
+  skills: z
+    .string()
+    .trim()
+    .max(500, 'Skills list cannot exceed 500 characters')
+    .optional()
+    .or(z.literal('')),
+});
 
 
  

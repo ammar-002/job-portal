@@ -31,6 +31,7 @@ export const login = async (req, res) => {
         _id: user._id,
         fullName: user.fullName,
         email: user.email,
+        phoneNumber:user.phoneNumber,
         role: user.role,
         profile: user.profile,
       },
@@ -63,8 +64,8 @@ export const register = async (req, res) => {
         success: false,
       });
     }
-    const user = await User.findOne({ email });
-    if (user) {
+    const isEmailExist = await User.findOne({ email });
+    if (isEmailExist) {
       return res.status(400).json({
         message: "Email exists already!",
         success: false,
@@ -72,7 +73,7 @@ export const register = async (req, res) => {
     }
     const hashedPassword = await bcrypt.hash(password, 8);
 
-    await User.create({
+    const user= await User.create({
       fullName,
       email,
       password: hashedPassword,
@@ -85,6 +86,7 @@ export const register = async (req, res) => {
     return res.status(201).json({
       message: "user created successfully",
       success: true,
+      user
     });
   } catch (error) {
     console.log(error);
