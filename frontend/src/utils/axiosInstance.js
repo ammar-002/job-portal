@@ -36,7 +36,7 @@ api.interceptors.response.use(
         return api(originalRequest)
       } catch (error) {
       toast.error(error.response.data.message)
-        console.log(error)
+        // console.log(error)
         processQueue(error)
         window.location.href = '/login'
         return Promise.reject(error)

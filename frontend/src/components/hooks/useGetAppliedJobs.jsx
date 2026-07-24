@@ -17,7 +17,7 @@ const useGetAppliedJobs = () => {
         dispatch(setAppliedJobs(res?.data?.all_application))
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   useEffect(() => {

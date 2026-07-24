@@ -20,11 +20,11 @@ const Applicants = () => {
       );
 
       if(res.data.success){
-        console.log(res.data.jobs.applications)
+        // console.log(res.data.jobs.applications)
         dispatch(setAllApplicants(res?.data?.jobs?.applications))
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       toast.error(error.response.data.message)
     }
   };

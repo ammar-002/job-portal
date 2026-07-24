@@ -2,7 +2,7 @@ import { Company } from "../models/company.model.js";
 import getDataUri from "../utils/dataURI.js";
 import cloudinary from "../utils/cloudinary.js";
 export const registerCompany = async (req, res) => {
-  console.log("Request Body: ", req); // Debugging line to check the request body
+  // console.log("Request Body: ", req); // Debugging line to check the request body
   try {
     const { companyName, logo } = req.body;
     if (!companyName) {
@@ -29,7 +29,7 @@ export const registerCompany = async (req, res) => {
       company,
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return res.status(500).json({
       message: "Something Went Wrong!",
       success: false,
@@ -54,7 +54,7 @@ export const getCompanies = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return res.status(500).json({
       message: "SOmething Went Wrong!",
       success: false,
@@ -78,7 +78,7 @@ export const getCompanyById = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return res.status(500).json({
       message: "Something Went Wrong!",
       success: false,
@@ -122,7 +122,7 @@ export const updateCompany = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return res.status(500).json({
       message: "Something Went Wrong in Company!",
       success: false,
@@ -145,7 +145,7 @@ export const deleteCompany = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return res.status(500).json({
       message: "Internal Server Error",
       success: false,

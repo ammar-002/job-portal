@@ -16,10 +16,10 @@ const useGetAllAdminJobs = () => {
       });
       if (res.data.success) {
         dispatch(setAllAdminJobs(res.data.jobs));
-        console.log(AllAdminJobs);
+        // console.log(AllAdminJobs);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
      
         toast.error(error.response?.data?.message || "Something went wrong")
   

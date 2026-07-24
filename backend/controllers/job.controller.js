@@ -31,7 +31,7 @@ export const createJob = async (req, res) => {
         })
 
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return res.status(500).json({
             message: "Something Went Wrong!",
             success: false,
@@ -71,7 +71,7 @@ export const getAllJobs = async (req, res) => {
         })
 
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return res.status(500).json({
             message: "Something Went Wrong!",
             success: false,
@@ -98,7 +98,7 @@ export const getJobById = async (req, res) => {
             success: true,
         })
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return res.status(500).json({
             message: "Something Went Wrong!",
             success: false
@@ -130,7 +130,7 @@ export const getAdminJobs = async (req, res) => {
             success: true
         })
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return res.status(500).json({
             message: "Something Went Wrong!",
             success: false,
@@ -155,7 +155,7 @@ export const deleteJob = async (req,res)=>{
         success:true,
     })
     } catch (error) {
-      console.log(error)  
+    //   console.log(error)  
       return res.status(500).json({
         message:"Internal Server Error",
         success:false,
@@ -166,7 +166,7 @@ export const deleteJob = async (req,res)=>{
 
 export const updateJob = async (req,res)=>{
     try {
-        console.log("Update Job Request Body:", req.body);
+        // console.log("Update Job Request Body:", req.body);
         const jobId = req.params._id
         const { title, description, requirements, salary, experience, location, vacancies,companyId } = req.body
         if (!jobId) {
@@ -203,7 +203,7 @@ export const updateJob = async (req,res)=>{
             success: true,
         })
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return res.status(500).json({
             message: "Something Went Wrong!",
             success: false,

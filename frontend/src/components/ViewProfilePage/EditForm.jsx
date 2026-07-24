@@ -49,7 +49,7 @@ const EditForm = ({ open, setOpen }) => {
       setloading(false)
       setOpen(false)
     }
-    console.log(input)
+    // console.log(input)
 
 
   }

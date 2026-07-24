@@ -46,10 +46,10 @@ const JobTable = () => {
         const updatedJobs = AllAdminJobs.filter((job) => job._id !== jobId);
         dispatch(setAllAdminJobs(updatedJobs));
       }
-      console.log(res.data.message);
+      // console.log(res.data.message);
       toast.success(res.data.message);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       toast.error(error.response.data.message);
     }
   };

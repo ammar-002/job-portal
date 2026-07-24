@@ -20,7 +20,7 @@ const useGetAllJobs = () => {
         dispatch(setAllJobs(res.data.jobs));
       }
       else{
-        console.log("failed");
+        // console.log("failed");
         
       }
     } catch (error) {

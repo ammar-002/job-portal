@@ -9,9 +9,9 @@ const connectDB = async () => {
             serverSelectionTimeoutMS: 5000, // fail fast instead of hanging till Vercel kills the function
         });
         isConnected = db.connections[0].readyState === 1;
-        console.log("Mongodb Connected Successfully!");
+        // console.log("Mongodb Connected Successfully!");
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         isConnected = false;
         throw error; // let the caller (server.js) know it failed
     }

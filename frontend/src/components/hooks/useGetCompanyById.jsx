@@ -13,12 +13,12 @@ const useGetCompanyById= (companyId) => {
       const res = await api.get(`/api/v1/company/get/${companyId}`, {
         withCredentials: true,
       });
-      console.log(res)
+      // console.log(res)
       if (res.data.success) {
         dispatch(setSingleCompany(res.data.company));
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       toast.error(error.response?.data?.message || "Something went wrong");
     }
   };

@@ -21,7 +21,7 @@ import { toast } from "sonner";
 const ApplicantsTable = () => {
   const { AllApplicants } = useSelector((store) => store.application);
   const statusHandler = async (status, Id) => {
-    console.log(Id)
+    // console.log(Id)
     try {
       const res = await api.post(
         `/api/v1/application/status/${Id}`,
@@ -34,7 +34,7 @@ const ApplicantsTable = () => {
         toast.success(res.data.message);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       toast.error(error.response.data.message);
     }
   };
