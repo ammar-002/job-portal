@@ -34,7 +34,7 @@ const ViewDetails = () => {
 
   const getSingleJob = async () => {
     try {
-      const res = await api.get(`/api/v2/job/getjobby/${jobId}`, {
+      const res = await api.get(`/api/v1/job/getjobby/${jobId}`, {
         withCredentials: true,
       });
       if (res.data.success) {

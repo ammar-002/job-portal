@@ -1,7 +1,6 @@
 import express from 'express'
 import { Router } from 'express'
-import { createJob, getJobById, getAdminJobs, deleteJob,updateJob } from '../controllers/job.controller.js'
-import { getAllJobs } from '../controllers/jobv2.controller.js'
+import { createJob, getJobById, getAdminJobs, deleteJob,updateJob,getAllJobs } from '../controllers/job.controller.js'
 import isAuthenticated from '../middlewares/isAuthenticated.js'
 import { createJobSchema, updateJobSchema } from '../middlewares/z_validators.js'
 import { validate } from '../middlewares/validate.middleware.js'

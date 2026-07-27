@@ -60,7 +60,7 @@ const JobEdit = () => {
       // Fallback: fetch from API if not in store
       const fetchJob = async () => {
         try {
-          const res = await api.get(`/api/v2/job/get/${id}`, {
+          const res = await api.get(`/api/v1/job/get/${id}`, {
             withCredentials: true,
           });
           if (res.data.success) {
@@ -102,7 +102,7 @@ const JobEdit = () => {
     setLoading(true);
     try {
       const res = await api.put(
-        `/api/v2/job/update/${id}`,
+        `/api/v1/job/update/${id}`,
         form,
         { withCredentials: true }
       );

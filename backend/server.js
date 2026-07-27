@@ -36,7 +36,7 @@ app.use(async (req, res, next) => {
 // API
 app.use('/api/v1/user', userrouter)
 app.use('/api/v1/company', companyrouter)
-app.use('/api/v2/job', jobrouter)
+app.use('/api/v1/job', jobrouter)
 app.use('/api/v1/application', applicationrouter)
 app.get('/', (req, res) => {
     res.json({ 

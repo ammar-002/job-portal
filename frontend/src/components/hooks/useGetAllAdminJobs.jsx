@@ -11,7 +11,7 @@ const useGetAllAdminJobs = () => {
   const dispatch = useDispatch();
   const getAllAdminJobs = async () => {
     try {
-      const res = await api.get(`/api/v2/job/getadminjobs`, {
+      const res = await api.get(`/api/v1/job/getadminjobs`, {
         withCredentials: true,
       });
       if (res.data.success) {

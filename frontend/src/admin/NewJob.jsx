@@ -58,7 +58,7 @@ const NewJob = () => {
     }
     setLoading(true);
     try {
-      const res = await api.post(`/api/v2/job/createjob`, input, {
+      const res = await api.post(`/api/v1/job/createjob`, input, {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       });

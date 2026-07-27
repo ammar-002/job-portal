@@ -11,7 +11,7 @@ const useGetAllJobs = () => {
   const {searchedQuery} = useSelector(store=>store.job)
   const getJobs = async () => {
     try {
-      const res = await api.get(`/api/v2/job/getalljobs?keyword=${searchedQuery}`, {
+      const res = await api.get(`/api/v1/job/getalljobs?keyword=${searchedQuery}`, {
         
         withCredentials: true,
       });
