@@ -19,9 +19,13 @@ const app = express()
 app.set("trust proxy", 1);
 // MiddleWares
 app.use(cors({
-    origin: process.env.FRONTEND_URL,
-    credentials: true
+  origin: process.env.FRONTEND_URL,
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 }))
+
+app.options("*", cors()) // preflight
 app.use(express.json())  //parse json data into js data as express doesnt know how to handle json data
 app.use(cookieParser())  
 
