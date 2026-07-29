@@ -42,7 +42,7 @@ export const createJob = async (req, res) => {
       companyId,
       created_byId: userId,
     });
-     const keys = await redis.keys("jobs:*");
+    const keys = await redis.keys("jobs:*");
     if (keys.length > 0) {
       await redis.del(...keys);
     }
@@ -97,12 +97,12 @@ export const getAllJobs = async (req, res) => {
         success: false,
       });
     }
-    await redis.set(cachedKey,JSON.stringify(jobs),"EX",60)
+    await redis.set(cachedKey, JSON.stringify(jobs), "EX", 60);
     return res.status(200).json({
       message: "Jobs Found.",
       jobs,
       success: true,
-      source:"db",
+      source: "db",
     });
   } catch (error) {
     console.log(error);
@@ -174,15 +174,15 @@ export const deleteJob = async (req, res) => {
   try {
     const jobId = req.params._id;
     const job = await Job.findByIdAndDelete(jobId);
-    const keys = await redis.keys("jobs:*");
-    if (keys.length > 0) {
-      await redis.del(...keys);
-    }
     if (!job) {
-      return res.status(400).json({
+        return res.status(400).json({
         message: "Cannot Find Job",
         success: false,
       });
+    }
+    const keys = await redis.keys("jobs:*");
+    if (keys.length > 0) {
+      await redis.del(...keys);
     }
     return res.status(200).json({
       message: "Job Deleted Successfully",
@@ -238,6 +238,10 @@ export const updateJob = async (req, res) => {
         message: "No Job Found.",
         success: false,
       });
+    }
+    const keys = await redis.keys("jobs:*");
+    if (keys.length > 0) {
+      await redis.del(...keys);
     }
     job.title = title;
     job.description = description;
