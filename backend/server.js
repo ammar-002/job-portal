@@ -44,8 +44,8 @@ app.get('/', (req, res) => {
         status: "running" 
     })
 })
-// app.listen(PORT, () => {
-//     console.log(`App is Listening at PORT ${PORT}`)
-// })
+app.listen(PORT, () => {
+    console.log(`App is Listening at PORT ${PORT}`)
+})
 
 export default app
