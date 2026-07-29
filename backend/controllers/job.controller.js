@@ -1,4 +1,5 @@
 import { Job } from "../models/job.model.js";
+import redis from "../utils/redis.js";
 
 // Create a new job posting (typically by an Admin/Recruiter).
 export const createJob = async (req, res) => {
