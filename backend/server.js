@@ -22,7 +22,6 @@ app.use(cors({
     origin: process.env.FRONTEND_URL,
     credentials: true
 }))
-app.options("*", cors())
 app.use(express.json())  //parse json data into js data as express doesnt know how to handle json data
 app.use(cookieParser())  
 
