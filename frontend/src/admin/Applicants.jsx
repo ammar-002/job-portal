@@ -24,7 +24,7 @@ const Applicants = () => {
         dispatch(setAllApplicants(res?.data?.jobs?.applications))
       }
     } catch (error) {
-      // console.log(error);
+      console.log(error);
       toast.error(error.response.data.message)
     }
   };

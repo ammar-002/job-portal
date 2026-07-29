@@ -40,7 +40,7 @@ export const postapplication = async (req, res) => {
             success: true,
         })
     } catch (error) {
-        // console.log(error)
+        console.log(error)
         res.status(500).json({
             message: "Something Went Wrong!",
             success: false,
@@ -75,7 +75,7 @@ export const getAppliedJobs = async (req, res) => {
         })
 
     } catch (error) {
-        // console.log(error)
+        console.log(error)
         return res.status(500).json({
             message: "Something Went Wrong!",
             success: false,
@@ -110,7 +110,7 @@ export const getApplicants = async (req,res)=>{
 
 
     } catch (error) {
-        // console.log(error)
+        console.log(error)
         return res.status(500).json({
             message:"Something Went Wrong",
             success:false,
@@ -144,7 +144,7 @@ export const updateStatus = async (req,res)=>{
             success: true
         })
     } catch (error) {
-        // console.log(error)
+        console.log(error)
         return res.status(500).json({
             message:"Something Went Wrong",
             success:false,

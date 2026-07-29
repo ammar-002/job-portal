@@ -67,6 +67,7 @@ const Register = () => {
         setStep(2);
       }
     } catch (error) {
+      console.log(error)
       const err = error?.response?.data;
       if (err?.errors?.length > 0) {
         toast.error(err.errors[0].message);
@@ -94,6 +95,7 @@ const Register = () => {
         navigate("/login");
       }
     } catch (error) {
+      console.log(error)
       const err = error?.response?.data;
       toast.error(err?.message || "OTP verification failed");
     } finally {
@@ -118,6 +120,7 @@ const Register = () => {
         setTimerKey((prev) => prev + 1);
       }
     } catch (error) {
+      console.log(error)
       const err = error?.response?.data;
       toast.error(err?.message || "Failed to resend OTP");
 
