@@ -239,10 +239,7 @@ export const updateJob = async (req, res) => {
         success: false,
       });
     }
-    const keys = await redis.keys("jobs:*");
-    if (keys.length > 0) {
-      await redis.del(...keys);
-    }
+    
     job.title = title;
     job.description = description;
     job.requirements = requirements.split(",");
@@ -252,6 +249,10 @@ export const updateJob = async (req, res) => {
     job.vacancies = vacancies;
     job.companyId = companyId;
     await job.save();
+    const keys = await redis.keys("jobs:*");
+    if (keys.length > 0) {
+      await redis.del(...keys);
+    }
     return res.status(200).json({
       message: "Job Updated Successfully",
       job,
