@@ -1,15 +1,27 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "server.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "server.js"
-    }
-  ]
+    "version": 2,
+    "builds": [
+        {
+            "src": "server.js",
+            "use": "@vercel/node"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "methods": ["OPTIONS"],
+            "headers": {
+                "Access-Control-Allow-Origin": "https://job-portal-by-ammar.vercel.app",
+                "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
+                "Access-Control-Allow-Headers": "Content-Type, Authorization",
+                "Access-Control-Allow-Credentials": "true"
+            },
+            "dest": "/dev/null",
+            "status": 200
+        },
+        {
+            "src": "/(.*)",
+            "dest": "server.js"
+        }
+    ]
 }
