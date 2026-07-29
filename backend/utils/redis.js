@@ -12,6 +12,7 @@ redis.on('connect',()=>{
     console.log('Redis connected successfully');
 })
 
+
 redis.on('error',(err)=>{
     console.log('Redis connection error:', err);
 })
