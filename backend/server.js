@@ -16,6 +16,7 @@ dns.setServers(["1.1.1.1", "8.8.8.8"]);
 dotenv.config()
 const PORT = process.env.PORT || 3000
 const app = express()
+app.set("trust proxy", 1);
 // MiddleWares
 app.use(cors({
     origin: process.env.FRONTEND_URL,
