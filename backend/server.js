@@ -25,7 +25,7 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"],
 }))
 
-app.options("*", cors()) // preflight
+
 app.use(express.json())  //parse json data into js data as express doesnt know how to handle json data
 app.use(cookieParser())  
 
