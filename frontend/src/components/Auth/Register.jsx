@@ -137,6 +137,7 @@ const Register = () => {
   };
 
   useEffect(() => {
+  console.log("🔁 user changed:", user, "| step:", step);
   if (user && step === 1) navigate("/");
   }, [user]);
 
