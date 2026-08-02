@@ -137,8 +137,8 @@ const Register = () => {
   };
 
   useEffect(() => {
-    if (user) navigate("/");
-  }, []);
+  if (user && step === 1) navigate("/");
+  }, [user]);
 
   // timerKey change hone pe timer fresh start hoga
   useEffect(() => {
