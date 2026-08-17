@@ -136,9 +136,9 @@ const Register = () => {
     }
   };
 
-  useEffect(() => {
-  if (user) navigate("/");
-  }, [user,navigate]);
+  // useEffect(() => {
+  // if (user) navigate("/");
+  // }, [user,navigate]);
 
   // timerKey change hone pe timer fresh start hoga
   useEffect(() => {
