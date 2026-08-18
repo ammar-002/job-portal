@@ -2,21 +2,29 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../shared/Navbar";
 import JobsFilter from "./JobsFilter";
 import SingleJob from "./SingleJob";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import useGetAllJobs from "../hooks/useGetAllJobs";
 import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "../ui/button";
 
 const Jobs = () => {
-  const { allJobs, searchedQuery } = useSelector((store) => store.job);
-  useGetAllJobs();
+  const [currentPageNum, setCurrentPageNum] = useState(1);
+  const { allJobs, searchedQuery, totalPages, totalJobs } = useSelector((store) => store.job);
+
+  useGetAllJobs(currentPageNum, 9);
+
   const [tempJobs, setTempJobs] = useState(allJobs);
+
+  // Jab searchedQuery change ho, page 1 pe wapas jao
+  useEffect(() => {
+    setCurrentPageNum(1);
+  }, [searchedQuery]);
 
   useEffect(() => {
     if (searchedQuery) {
       const query = searchedQuery.toLowerCase();
 
       const filteredJobs = allJobs.filter((job) => {
-        // Salary filter
         if (query.startsWith("salary:")) {
           const match = query.match(/salary:(\d*)-(\d*)/);
           if (match) {
@@ -26,13 +34,11 @@ const Jobs = () => {
           }
         }
 
-        // Experience filter (radio match)
         const experienceOptions = ["fresher", "1+ years", "3+ years", "4+ years"];
         if (experienceOptions.includes(query)) {
           return job.experience.toLowerCase() === query;
         }
 
-        // Default text search
         return (
           job.title.toLowerCase().includes(query) ||
           job.description.toLowerCase().includes(query) ||
@@ -76,6 +82,27 @@ const Jobs = () => {
               )}
             </AnimatePresence>
           </div>
+
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center gap-4 mt-8">
+              <Button
+                disabled={currentPageNum === 1}
+                onClick={() => setCurrentPageNum((prev) => prev - 1)}
+              >
+                Previous
+              </Button>
+              <span className="text-sm font-medium">
+                Page {currentPageNum} of {totalPages} ({totalJobs} jobs)
+              </span>
+              <Button
+                disabled={currentPageNum === totalPages}
+                onClick={() => setCurrentPageNum((prev) => prev + 1)}
+              >
+                Next
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </div>

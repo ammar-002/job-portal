@@ -4,12 +4,13 @@ import { createJob, getJobById, getAdminJobs, deleteJob,updateJob,getAllJobs } f
 import isAuthenticated from '../middlewares/isAuthenticated.js'
 import { createJobSchema, updateJobSchema } from '../middlewares/z_validators.js'
 import { validate } from '../middlewares/validate.middleware.js'
+import isRecruiter from '../middlewares/isRecruiter.js'
 const jobrouter = express.Router()
 
-jobrouter.route('/createjob').post(isAuthenticated, validate(createJobSchema),createJob)
-jobrouter.route('/getadminjobs').get(isAuthenticated,getAdminJobs)
-jobrouter.route('/getjobby/:_id').get( getJobById)
-jobrouter.route('/delete/:_id').delete(isAuthenticated,deleteJob )
+jobrouter.route('/createjob').post(isAuthenticated, isRecruiter, validate(createJobSchema),createJob)
+jobrouter.route('/getadminjobs').get(isAuthenticated,isRecruiter,getAdminJobs)
+jobrouter.route('/getjobby/:_id').get(getJobById)
+jobrouter.route('/delete/:_id').delete(isAuthenticated,isRecruiter,deleteJob )
 jobrouter.route('/getalljobs').get(getAllJobs)
-jobrouter.route('/update/:_id').put(isAuthenticated, validate(updateJobSchema), updateJob)
+jobrouter.route('/update/:_id').put(isAuthenticated,isRecruiter, validate(updateJobSchema), updateJob)
 export default jobrouter

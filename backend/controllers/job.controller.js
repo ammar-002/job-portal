@@ -65,16 +65,19 @@ export const createJob = async (req, res) => {
 export const getAllJobs = async (req, res) => {
   try {
     const keyword = req.query.keyword || "";
-    const cachedKey = `jobs:${keyword}`;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 9;
+    const skip = (page - 1) * limit;
 
-    const cachedJobs = await redis.get(cachedKey);
+    const cachedKey = `jobs:${keyword}:page${page}:limit${limit}`;
 
-    if (cachedJobs) {
-      // Cache hit — Redis se seedha return karo, DB nahi gaye
+    const cachedData = await redis.get(cachedKey);
+
+    if (cachedData) {
       return res.status(200).json({
-        jobs: JSON.parse(cachedJobs),
+        ...JSON.parse(cachedData),
         success: true,
-        source: "cache", // optional — debug ke liye
+        source: "cache",
       });
     }
 
@@ -85,22 +88,26 @@ export const getAllJobs = async (req, res) => {
       ],
     };
 
-    // We populate companyId to see company details in which job posted
     const jobs = await Job.find(query)
-      .populate({
-        path: "companyId",
-      })
-      .sort({ createdAt: -1 });
-    if (!jobs) {
-      return res.status(404).json({
-        message: "Jobs Not Found",
-        success: false,
-      });
-    }
-    await redis.set(cachedKey, JSON.stringify(jobs), "EX", 60);
-    return res.status(200).json({
+      .populate({ path: "companyId" })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    const totalJobs = await Job.countDocuments(query);
+
+
+    const responseData = {
       message: "Jobs Found.",
       jobs,
+      currentPage: page,
+      totalPages: Math.ceil(totalJobs / limit),
+      totalJobs,
+    };
+
+    await redis.set(cachedKey, JSON.stringify(responseData), "EX", 60);
+    return res.status(200).json({
+      ...responseData,
       success: true,
       source: "db",
     });
@@ -175,7 +182,7 @@ export const deleteJob = async (req, res) => {
     const jobId = req.params._id;
     const job = await Job.findByIdAndDelete(jobId);
     if (!job) {
-        return res.status(400).json({
+      return res.status(400).json({
         message: "Cannot Find Job",
         success: false,
       });
@@ -239,7 +246,7 @@ export const updateJob = async (req, res) => {
         success: false,
       });
     }
-    
+
     job.title = title;
     job.description = description;
     job.requirements = requirements.split(",");

@@ -11,7 +11,7 @@ import sendEmail from "../utils/sendEmail.js";
 
 export const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, role } = req.body;
 
     const user = await User.findOne({ email });
     if (!user) {
@@ -26,7 +26,10 @@ export const login = async (req, res) => {
     const { accessToken, refreshToken } = await generateTokens(user._id.toString());
     // console.log(accessToken,refreshToken)
     setTokenCookie(res, accessToken, refreshToken);
-
+    // check for role
+    if (user.role !== role) {
+      return res.status(403).json({ message: "You are not authorized to access this resource", success: false });
+    }
     return res.status(200).json({
       message: `Welcome back ${user.fullName}`,
       user: {
