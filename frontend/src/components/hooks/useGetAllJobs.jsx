@@ -1,20 +1,24 @@
-import axios from "axios";
-import React, { useEffect } from "react";
-import { JOB_API_END_POINT } from "../utils/constant";
-import { useDispatch, useSelector} from "react-redux";
-import { setAllJobs,setJobsPagination } from "@/redux/jobSlice";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setAllJobs, setJobsPagination } from "@/redux/jobSlice";
 import { toast } from "sonner";
 import api from "@/utils/axiosInstance";
+import { useSearchParams } from "react-router-dom";
 
-const useGetAllJobs = (page=1, limit=10) => {
+const useGetAllJobs = () => {
   const dispatch = useDispatch();
-  const {searchedQuery} = useSelector(store=>store.job)
+  const [searchParams] = useSearchParams();
+
   const getJobs = async () => {
     try {
-      const res = await api.get(`/api/v1/job/getalljobs?page=${page}&limit=${limit}`, {
+      // Agar page URL mein nahi hai, default "1" use karo
+      const params = new URLSearchParams(searchParams);
+      if (!params.get("page")) params.set("page", "1");
+      if (!params.get("limit")) params.set("limit", "9");
+
+      const res = await api.get(`/api/v1/job/getalljobs?${params.toString()}`, {
         withCredentials: true,
       });
-      // console.log(res)
       if (res.data.success) {
         dispatch(setAllJobs(res.data.jobs));
         dispatch(setJobsPagination({
@@ -23,18 +27,15 @@ const useGetAllJobs = (page=1, limit=10) => {
           totalJobs: res.data.totalJobs,
         }));
       }
-      else{
-        // console.log("failed");
-        
-      }
     } catch (error) {
-      console.log("Error: "+error);
-      toast.error(error.response?.data?.message || "Something went wrong")
+      console.log("Error: " + error);
+      toast.error(error.response?.data?.message || "Something went wrong");
     }
   };
+
   useEffect(() => {
     getJobs();
-  }, [page]);
+  }, [searchParams]);
 };
 
 export default useGetAllJobs;

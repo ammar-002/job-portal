@@ -10,7 +10,6 @@ const jobSlice = createSlice({
     AllAdminJobs: [],
     singleAdminJob: null,
     AppliedJobs: [],
-    searchedQuery: "",
     currentPage: 1,
     totalPages: 1,
     totalJobs: 0,
@@ -39,9 +38,7 @@ const jobSlice = createSlice({
     setAppliedJobs: (state, action) => {
       state.AppliedJobs = action.payload;
     },
-    setSearchedQuery: (state, action) => {
-      state.searchedQuery = action.payload;
-    },
+    
   },
 });
 

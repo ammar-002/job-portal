@@ -1,40 +1,50 @@
 import React, { useEffect, useState } from "react";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Label } from "../ui/label";
-import { useDispatch } from "react-redux";
-import { setSearchedQuery } from "@/redux/jobSlice";
 import { Button } from "../ui/button";
+import { useSearchParams } from "react-router-dom";
 
 const JobsFilter = () => {
-  const [selectedExperience, setSelectedExperience] = useState(""); // Radio
-  const [salaryRange, setSalaryRange] = useState({ from: "", to: "" }); // Salary
-  const dispatch = useDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const experienceOptions = ["Fresher", "1+ Years", "3+ Years", "4+ Years"];
 
+  const selectedExperience = searchParams.get("experience") || "";
+  const minSalary = searchParams.get("minSalary") || "";
+  const maxSalary = searchParams.get("maxSalary") || "";
+
   // Experience radio change
   const handleExperienceChange = (value) => {
-    setSelectedExperience(value);
-    setSalaryRange({ from: "", to: "" }); // Clear salary when experience selected
+    const params = new URLSearchParams(searchParams);
+    params.set("experience", value);
+    params.delete("minSalary");
+    params.delete("maxSalary");
+    params.set("page", "1");
+    setSearchParams(params);
   };
 
   // Salary input change
   const handleSalaryChange = (e) => {
     const { name, value } = e.target;
-    setSalaryRange((prev) => ({ ...prev, [name]: value }));
-    setSelectedExperience(""); // Clear experience if typing salary
+    const params = new URLSearchParams(searchParams);
+    if (value) {
+      params.set(name, value);
+    } else {
+      params.delete(name);
+    }
+    params.delete("experience");
+    params.set("page", "1");
+    setSearchParams(params);
   };
 
-  // Dispatch query whenever experience or salary changes
-  useEffect(() => {
-    if (salaryRange.from || salaryRange.to) {
-      dispatch(setSearchedQuery(`salary:${salaryRange.from}-${salaryRange.to}`));
-    } else if (selectedExperience) {
-      dispatch(setSearchedQuery(selectedExperience));
-    } else {
-      dispatch(setSearchedQuery(""));
-    }
-  }, [selectedExperience, salaryRange]);
+  const handleClear = () => {
+    const params = new URLSearchParams(searchParams);
+    params.delete("experience");
+    params.delete("minSalary");
+    params.delete("maxSalary");
+    params.set("page", "1");
+    setSearchParams(params);
+  };
 
   return (
     <div className="w-60 bg-gray-300 p-4 rounded-md min-h-[80vh] overflow-y-auto">
@@ -66,16 +76,16 @@ const JobsFilter = () => {
         <div className="flex flex-col gap-2 mt-2">
           <input
             type="number"
-            name="from"
-            value={salaryRange.from}
+            name="minSalary"
+            value={minSalary}
             onChange={handleSalaryChange}
             placeholder="From"
             className="p-1 rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full text-sm"
           />
           <input
             type="number"
-            name="to"
-            value={salaryRange.to}
+            name="maxSalary"
+            value={maxSalary}
             onChange={handleSalaryChange}
             placeholder="To"
             className="p-1 rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full text-sm"
@@ -84,11 +94,7 @@ const JobsFilter = () => {
       </div>
 
       <Button
-        onClick={() => {
-          setSelectedExperience("");
-          setSalaryRange({ from: "", to: "" });
-          dispatch(setSearchedQuery(""));
-        }}
+        onClick={handleClear}
         className="bg-black text-white mt-4 w-full cursor-pointer"
       >
         Clear

@@ -65,12 +65,14 @@ export const createJob = async (req, res) => {
 export const getAllJobs = async (req, res) => {
   try {
     const keyword = req.query.keyword || "";
+    const experience = req.query.experience || "";
+    const minSalary = req.query.minSalary || "";
+    const maxSalary = req.query.maxSalary || "";
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 9;
     const skip = (page - 1) * limit;
 
-    const cachedKey = `jobs:${keyword}:page${page}:limit${limit}`;
-
+    const cachedKey = `jobs:${keyword}:${experience}:${minSalary}-${maxSalary}:page${page}:limit${limit}`;
     const cachedData = await redis.get(cachedKey);
 
     if (cachedData) {
@@ -81,12 +83,24 @@ export const getAllJobs = async (req, res) => {
       });
     }
 
-    const query = {
-      $or: [
+    const query = {};
+
+    if (keyword) {
+      query.$or = [
         { title: { $regex: keyword, $options: "i" } },
         { description: { $regex: keyword, $options: "i" } },
-      ],
-    };
+      ];
+    }
+
+    if (experience) {
+      query.experience = experience;
+    }
+
+    if (minSalary || maxSalary) {
+      query.salary = {};
+      if (minSalary) query.salary.$gte = Number(minSalary);
+      if (maxSalary) query.salary.$lte = Number(maxSalary);
+    }
 
     const jobs = await Job.find(query)
       .populate({ path: "companyId" })
@@ -95,7 +109,6 @@ export const getAllJobs = async (req, res) => {
       .limit(limit);
 
     const totalJobs = await Job.countDocuments(query);
-
 
     const responseData = {
       message: "Jobs Found.",
